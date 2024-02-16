@@ -5,7 +5,7 @@ from utils import extension_cell
 # 🌲 🌳 🟩 🟦 🚁 🔥 🏥 🏢 🧡 🌩️ 🌧️ 🌥️ 🎖️ 🏆 🧜‍♀️ 🧚 🟫  TODO потом убрать
  
 class Map(object):
-    CELL_TYPES = '🟩🌲🟦🏥🏢';
+    CELL_TYPES = '🟩🌲🟦🏥🏢🌳🔥'
 
     def generate_rivers(self, length):
         river = get_rand_cell(self.width, self.height)
@@ -30,11 +30,45 @@ class Map(object):
                 if get_rand_bool(chance, range_value):
                     self.cells[i][j] = 1
 
+    def generate_tree(self):
+        cell = get_rand_cell(self.width, self.height)
+
+        point_x, point_y = cell[0], cell[1]
+
+        if (self.is_bounds(point_x, point_y) and self.cells[point_x][point_y] == 0):
+            self.cells[point_x][point_y] = 5
+
+    def generate_fir_tree(self):
+        cell = get_rand_cell(self.width, self.height)
+        point_x, point_y = cell[0], cell[1]
+
+        if (self.is_bounds(point_x, point_y) and self.cells[point_x][point_y] == 0):
+            self.cells[point_x][point_y] = 1
+
+    def generate_fire(self):
+        cell = get_rand_cell(self.width, self.height)
+        point_x, point_y = cell[0], cell[1]
+
+        if (self.cells[point_x][point_y] == 1 or self.cells[point_x][point_y] == 5):
+            self.cells[point_x][point_y] = 6
+
+    def update_fire(self):
+        for x in range(self.height):
+            for y in range(self.width):
+                cell = self.cells[x][y]
+
+                if cell == 6:
+                    self.cells[x][y] = 0
+        for i in range(4):
+            self.generate_fire()
+
     # 0 - поле
-    # 1 - дерево
+    # 1 - елка
     # 2 - река
     # 3 - госпиталь
     # 4 - апгрейд-шоп
+    # 5 - дерево
+    # 6 - огонь
     def get_map(self):
         print('🟫' * (self.width + 2))
 
@@ -61,10 +95,3 @@ class Map(object):
            ):
             return False
         return True
-
-
-test_map = Map(20, 10)
-test_map.generate_forest(3, 10)
-test_map.generate_rivers(10)
-test_map.generate_rivers(30)
-test_map.get_map()

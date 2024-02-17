@@ -2,7 +2,7 @@ from utils import get_rand_bool
 from utils import get_rand_cell
 from utils import extension_cell
 
-# 🌲 🌳 🟩 🟦 🚁 🔥 🏥 🏢 🧡 🌩️ 🌧️ 🌥️ 🎖️ 🏆 🧜‍♀️ 🧚 🟫 ⏺️⬜💧 TODO потом убрать
+# 🏥
  
 class Map(object):
     CELL_TYPES = '🟩🌲🟦🏥🏢🌳🔥'
@@ -30,6 +30,9 @@ class Map(object):
         ):
             return False
         return True
+    
+    def get_cost_info(self):
+        print(f'COST INFO: HEAL: {self.HEALTH_COST} SCORE, UPGRADE: {self.UPGRADE_COST} SCORE')
     
     def generate_clouds(self, num_clouds = 5):
         self.clouds = []
@@ -197,3 +200,10 @@ class Map(object):
 
             if (object.health == 0):
                 object.game_over()
+
+    def export_data(self):
+        return {'cells': self.cells, 'clouds': self.clouds}
+    
+    def import_data(self, data):
+        self.cells = data['cells']
+        self.clouds = data['clouds']

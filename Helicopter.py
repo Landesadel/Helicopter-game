@@ -1,4 +1,5 @@
 from utils import get_rand_cell
+import os
 
 class Helicopter(object):
     def __init__(self, width, height):
@@ -11,6 +12,7 @@ class Helicopter(object):
         self.tank = 0
         self.tank_capacity = 1
         self.score = 0
+        self.health = 300
 
     def move(self, point_x, point_y):
         new_point_x = point_x + self.point_x
@@ -24,4 +26,10 @@ class Helicopter(object):
 
     def get_info(self):
         print('💧 ', self.tank, '/', self.tank_capacity, sep='', end=' | ')
-        print('🎖️', self.score)
+        print('🎖️', self.score, end=' | ')
+        print('🧡', self.health)
+
+    def game_over(self):
+        os.system('clear')
+        print('GAME OVER, YOUR SCORE IS: ', self.score)
+        exit(0)
